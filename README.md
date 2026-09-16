@@ -5,7 +5,9 @@ A MuJoCo simulator for the [Hiwonder TonyPi Pro](https://www.hiwonder.com/produc
 Stock Action Group files: https://github.com/Hiwonder/TonyPi/tree/main/ActionGroups
 Stock hardware example scripts: https://github.com/Hiwonder/TonyPi/tree/main/Example
 
-Sim-vs-hardware comparison video: https://youtu.be/VVifUPAAEM0
+Sim-vs-hardware comparison video:
+
+[![Sim vs hardware comparison](https://img.youtube.com/vi/VVifUPAAEM0/maxresdefault.jpg)](https://youtu.be/VVifUPAAEM0)
 
 ## Folder layout
 
