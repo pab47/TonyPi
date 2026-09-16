@@ -13,7 +13,7 @@ Sim-vs-hardware comparison video: https://youtu.be/VVifUPAAEM0
 ./                          <-- this file lives at the repo root
   action/                   .d6a Action Group files (stand.d6a, chest.d6a, sit_ups.d6a, wave.d6a, ...)
   model/                    MuJoCo model: scene.xml + robot.xml + assets/
-  tonypi/
+  control/
     controller_action.py    play back .d6a files, in sim or on hardware (--hw)
     controller.py            write your own control code against the same interface
     servo_map.py             per-servo raw-pulse <-> radian calibration
@@ -25,10 +25,10 @@ Sim-vs-hardware comparison video: https://youtu.be/VVifUPAAEM0
     TonyPi_hw/write_servos.py    hardware-only: writes to the servos
 ```
 
-All commands below are run from inside `tonypi/`:
+All commands below are run from inside `control/`:
 
 ```bash
-cd tonypi
+cd control
 ```
 
 ## 1. Simulation
@@ -67,7 +67,7 @@ Close the MuJoCo viewer window to end a run early.
 
 ## 2. Hardware
 
-Deploy: copy this whole `tonypi/` folder onto the robot's Raspberry Pi, into `TonyPi/Example/` (see the [stock Example folder](https://github.com/Hiwonder/TonyPi/tree/main/Example) for reference on where that lives).
+Deploy: copy this whole `control/` folder onto the robot's Raspberry Pi, into `TonyPi/Example/` (see the [stock Example folder](https://github.com/Hiwonder/TonyPi/tree/main/Example) for reference on where that lives).
 
 On the robot, run the same commands with `--hw`, which drives the real servos via `TonyPi_hw/tonypi_hw.py` instead of MuJoCo:
 
