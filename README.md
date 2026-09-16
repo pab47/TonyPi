@@ -134,3 +134,4 @@ To move `controller.py` to the real robot, copy it along with `TonyPi_hw/` and `
 * The sim window is MuJoCo's managed viewer: Space pauses, the right panel has a speed slider, Backspace resets.
 * Physics timestep is 4 ms.
 * `.d6a` files are SQLite databases (Hiwonder's Action Group Editor format); raw servo pulses (0-1000) are converted to radians via each servo's calibration in `servo_map.py`.
+* Acknowledgement: Salvador Echeveste created the xml model from .stp file provided by HiWonder. This simulation is based on his work.
