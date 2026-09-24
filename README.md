@@ -2,7 +2,7 @@
 
 A MuJoCo simulator for the [Hiwonder TonyPi Pro](https://www.hiwonder.com/products/tonypi) that mirrors the robot's real hardware interface. There are two different kinds of behavior in this repo — keep them separate in your head:
 
-1. **Stock playback.** `controller_action.py`, in sim or on hardware, replays the Hiwonder-authored `.d6a` Action Group files (bow, wave, sit-ups, walking, etc.) that ship with the robot. This is just playing back vendor-created motions, and it's what the sim-vs-hardware comparison video below shows.
+1. **Real to Sim.** `controller_action.py`, in sim or on hardware, replays the Hiwonder-authored `.d6a` Action Group files (bow, wave, sit-ups, walking, etc.) that ship with the robot. This is just playing back vendor-created motions, and it's what the sim-vs-hardware comparison video below shows.
 2. **Custom IK-generated behaviors.** `controller_stand.py` and `controller_walk.py`, run in sim, are state-machine-based behaviors I designed myself, using inverse kinematics (via [mink](https://github.com/kevinzakka/mink) + MuJoCo) rather than hand choreography. They get baked into `.d6a` files and then played on hardware with the same `controller_action.py --hw` used for stock playback. See [Section 4](#4-custom-ik-generated-behaviors-controller_standpy--controller_walkpy) below. A new YouTube video demoing these is in progress — placeholder for now.
 
 Stock Action Group files: https://github.com/Hiwonder/TonyPi/tree/main/ActionGroups
