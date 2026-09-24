@@ -74,7 +74,9 @@ NAME.update({i + 9: 'R_' + n for i, n in enumerate(_LEFT_NAMES)})
 
 _G = 9.80665
 _DEFAULT_MODEL = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                              '../..', 'model', 'scene.xml')
+                               '../..', 'model', 'scene.xml')
+# _DEFAULT_MODEL = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+#                               '../..', 'model', 'scene_mink.xml')
 
 
 class _SimStopped(Exception):
