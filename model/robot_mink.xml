@@ -196,7 +196,16 @@
                      from 0.009985 to 0.016307 (sign still mirrors per
                      side). Position in y (front-back) unchanged -- no
                      heel/toe offset was measured. -->
-                <site name="r_ankle_roll_site" type="box" size="0.041252 0.057000 0.003501" pos="-0.016307 0.005983 -0.015000" rgba="0 1 0 0.25"/>
+                <site name="right_foot" type="box" size="0.041252 0.057000 0.003501" pos="-0.016307 0.005983 -0.015000" rgba="0 1 0 0.25"/>  <!-- 2026-09-23: briefly tried nulling the fore-aft (y) offset here to
+                     put this site exactly at the ankle_roll joint, on a
+                     hunch that it was biasing the gait forward -- turned
+                     out to be a false alarm (the "site looks forward of
+                     the ankle" observation was actually the draggable
+                     mocap-target BOX in scene.xml/scene_mink.xml having
+                     its own unrelated render offset, fixed there instead).
+                     Reverted back to the original, physically-measured
+                     0.005983 m -- see the FOOT-SIZE/STANCE-WIDTH FIX
+                     comment above for where that number comes from. -->
                 <geom name="r_ankle_roll_sole" class="collision" type="box" size="0.039252 0.055000 0.000501" pos="-0.016307 0.005983 -0.013000" mass="0.032247"/>
               </body>
             </body>
@@ -229,7 +238,8 @@
               <geom name="r_gripper_vis" class="visual" type="mesh" mesh="l_gripper_vis"/>
               <geom name="r_gripper_fasteners" class="internal" type="box" size="0.008748 0.028702 0.004803" pos="-0.001345 0.000328 -0.005878" mass="0.001185"/>
               <geom name="r_gripper_structure" class="internal" type="box" size="0.031931 0.030429 0.035306" pos="0.014643 0.001499 -0.004517" mass="0.011908"/>
-              <geom name="r_gripper_col" class="selfcol" type="capsule" fromto="0.014643 0.001499 -0.063643 0.014643 0.001499 -0.000391" size="0.011180" mass="0"/>  <!-- HAND-LENGTH FIX: distal end extended 5.5cm (was -0.008643) -- the real hardware (no grippers, fixed hand) reaches noticeably farther than this capsule did; sim-only capsule stub was too short to plant on the floor during hand-supported get-up moves. See sit_ups.d6a stand-up diagnosis. -->
+              <geom name="r_gripper_col" class="selfcol" type="capsule" fromto="0.014643 0.001499 -0.063643 0.014643 0.001499 -0.000391" size="0.011180" mass="0"/>
+              <geom name="r_hand_vis" class="visual" type="capsule" fromto="0.014643 0.001499 -0.063643 0.014643 0.001499 -0.000391" size="0.011180"/>  <!-- VISUAL HAND-LENGTH FIX: r_gripper_vis (the STL) stops short of the real fixed-hand reach; this mirrors r_gripper_col so the rendered hand actually reaches right_palm instead of showing a gap. -->  <!-- HAND-LENGTH FIX: distal end extended 5.5cm (was -0.008643) -- the real hardware (no grippers, fixed hand) reaches noticeably farther than this capsule did; sim-only capsule stub was too short to plant on the floor during hand-supported get-up moves. See sit_ups.d6a stand-up diagnosis. -->
               <!-- FINGERTIP PAD FIX: r_gripper_col is a bare round capsule, so
                    a floor contact at its tip is a SINGLE point with no lever
                    arm against tipping -- like balancing on a fingertip, it can
@@ -260,6 +270,7 @@
               <geom name="r_gripper_pad1" class="collision" type="sphere" size="0.009" pos="0.022643 0.007499 -0.063643" mass="0"/>
               <geom name="r_gripper_pad2" class="collision" type="sphere" size="0.009" pos="0.006643 0.007499 -0.063643" mass="0"/>
               <geom name="r_gripper_pad3" class="collision" type="sphere" size="0.009" pos="0.014643 -0.008501 -0.063643" mass="0"/>
+              <site name="right_palm" pos="0.014643 0.001499 -0.063643" size="0.005" rgba="0 0 1 1"/>
             </body>
           </body>
         </body>
@@ -297,7 +308,7 @@
                 <geom name="l_ankle_roll_vis" class="visual" type="mesh" mesh="r_ankle_roll_vis"/>
                 <geom name="l_ankle_roll_fasteners" class="internal" type="box" size="0.020313 0.029688 0.006911" pos="0.004838 0.002019 -0.004079" mass="0.002710"/>
                 <!-- FOOT-SIZE FIX / STANCE-WIDTH FIX: see matching r_ankle_roll_site/sole comment. -->
-                <site name="l_ankle_roll_site" type="box" size="0.041252 0.057000 0.003501" pos="0.016307 0.005983 -0.015000" rgba="0 1 0 0.25"/>
+                <site name="left_foot" type="box" size="0.041252 0.057000 0.003501" pos="0.016307 0.005983 -0.015000" rgba="0 1 0 0.25"/>  <!-- see matching right_foot comment -->
                 <geom name="l_ankle_roll_sole" class="collision" type="box" size="0.039252 0.055000 0.000501" pos="0.016307 0.005983 -0.013000" mass="0.032247"/>
               </body>
             </body>
@@ -330,13 +341,15 @@
               <geom name="l_gripper_vis" class="visual" type="mesh" mesh="r_gripper_vis"/>
               <geom name="l_gripper_fasteners" class="internal" type="box" size="0.008748 0.028702 0.004803" pos="0.001345 0.000328 -0.005878" mass="0.001185"/>
               <geom name="l_gripper_structure" class="internal" type="box" size="0.031931 0.030429 0.035306" pos="-0.014643 0.001499 -0.004517" mass="0.011908"/>
-              <geom name="l_gripper_col" class="selfcol" type="capsule" fromto="-0.014643 0.001499 -0.063643 -0.014643 0.001499 -0.000391" size="0.011180" mass="0"/>  <!-- HAND-LENGTH FIX: distal end extended 5.5cm (was -0.008643) -- see matching r_gripper_col comment. -->
+              <geom name="l_gripper_col" class="selfcol" type="capsule" fromto="-0.014643 0.001499 -0.063643 -0.014643 0.001499 -0.000391" size="0.011180" mass="0"/>
+              <geom name="l_hand_vis" class="visual" type="capsule" fromto="-0.014643 0.001499 -0.063643 -0.014643 0.001499 -0.000391" size="0.011180"/>  <!-- see matching r_hand_vis comment. -->  <!-- HAND-LENGTH FIX: distal end extended 5.5cm (was -0.008643) -- see matching r_gripper_col comment. -->
               <!-- FINGERTIP PAD FIX: see matching r_gripper_pad1-3 comment.
                    HAND-SIZE BUMP, TRIED AND REVERTED: see matching
                    r_gripper_pad1-3 comment. -->
               <geom name="l_gripper_pad1" class="collision" type="sphere" size="0.009" pos="-0.022643 0.007499 -0.063643" mass="0"/>
               <geom name="l_gripper_pad2" class="collision" type="sphere" size="0.009" pos="-0.006643 0.007499 -0.063643" mass="0"/>
               <geom name="l_gripper_pad3" class="collision" type="sphere" size="0.009" pos="-0.014643 -0.008501 -0.063643" mass="0"/>
+              <site name="left_palm" pos="-0.014643 0.001499 -0.063643" size="0.005" rgba="0 0 1 1"/>
             </body>
           </body>
         </body>
@@ -415,9 +428,7 @@
          kp doubling across EVERY body_servo joint was tried earlier and
          made the gap worse (0.056cm) -- this instead overrides kp on ONLY
          r/l_hip_roll and r/l_ankle_roll, leaving hip_pitch/knee/ankle_pitch
-         and everything else at the class default (kp=12) -- see the
-         REVERTED PITCH-STIFFNESS FIX note below for a related attempt that
-         did NOT stay in this file.
+         and everything else at the class default (kp=12).
 
          Swept kp on just these 4 actuators (gravcomp off, dampratio/
          forcerange left at the class default 0.6 / +-1.667 N*m) through
@@ -433,38 +444,6 @@
          the point where returns flatten, 0 actuator saturation and 0
          large-tilt events at every kp tested up to 128. -->
     <position name="r_hip_roll" joint="r_hip_roll" class="body_servo" kp="64" ctrlrange="-1.0123 2.1817"/>  <!-- servo 5 -->
-    <!-- REVERTED PITCH-STIFFNESS FIX (kp override, hip_pitch/knee/ankle_pitch,
-         tried 2026-09-24, reverted 2026-09-26): hardware showed the WALK
-         gait's swing foot landing 6-9 deg off flat (fore-aft) and picking
-         up a small yaw "turn" from the resulting uneven/edge-first contact.
-         Diagnosed in sim first, not assumed: the mink IK's own commanded
-         foot orientation was already within <1 deg of level at every
-         touchdown, so not a kinematic/QP target problem -- logging the
-         *physics-stepped* foot-site orientation instead (same touchdown
-         ticks, full contact + PD dynamics) reproduced the 6-12 deg
-         fore-aft tilt baseline exactly, purely a sagittal-plane,
-         load-transfer-induced effect. Raising kp on the three sagittal leg
-         joints (still at the class default, everything lateral already
-         covered by the ROLL-STIFFNESS FIX above) fixed it for the WALK
-         gait specifically -- swept kp on just these 6 actuators, measuring
-         worst-case foot-pitch tilt across every touchdown:
-           kp=12 (orig): 12.0 deg   kp=48: 1.8 deg   kp=96: 1.1 deg
-           kp=24: 4.3 deg           kp=64: 1.3 deg
-           kp=36: 2.5 deg           (gains flatten out past ~64-96)
-         kp=64 picked for consistency with the roll fix, landing past the
-         knee of that curve. This is a real, reproducible finding worth
-         keeping around for whenever the walk gait's swing-foot tilt gets
-         revisited -- BUT it was reverted here because this same robot.xml
-         is shared (via scene.xml) with controller_stand.py's TonyPiSim,
-         and the stiffer sagittal gains broke ITS full-physics balance
-         tuning (the '--leg left' one-leg stand, validated stable under the
-         old kp=12 gains, tipped over under kp=64; hardware itself was
-         unaffected either way, since these are sim-only PD gains -- but
-         the sim regression is real). If this gets revisited, it likely
-         needs to be scoped per-controller (a second model/scene variant,
-         or a runtime kp override) rather than a blanket change to every
-         consumer of robot.xml, given walk and stand load these joints
-         quite differently. -->
     <position name="r_hip_pitch" joint="r_hip_pitch" class="body_servo" ctrlrange="-1.0849 1.9897"/>  <!-- servo 4 -->
     <position name="r_knee" joint="r_knee" class="body_servo" ctrlrange="-2.0944 2.1817"/>  <!-- servo 3 -->
     <position name="r_ankle_pitch" joint="r_ankle_pitch" class="body_servo" ctrlrange="-1.4242 1.9687"/>  <!-- servo 2 -->
@@ -528,8 +507,8 @@
     <jointvel name="l_shoulder_roll_v" joint="l_shoulder_roll"/>
     <jointvel name="l_elbow_v" joint="l_elbow"/>
     <jointvel name="l_gripper_v" joint="l_gripper"/>
-    <touch name="r_ankle_roll_touch" site="r_ankle_roll_site"/>
-    <touch name="l_ankle_roll_touch" site="l_ankle_roll_site"/>
+    <touch name="r_ankle_roll_touch" site="right_foot"/>
+    <touch name="l_ankle_roll_touch" site="left_foot"/>
   </sensor>
 
   <keyframe>

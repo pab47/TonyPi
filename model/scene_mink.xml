@@ -1,0 +1,72 @@
+<mujoco model="tonypi_scene">
+  <include file="robot_mink.xml"/>
+
+    <!-- <option gravity="0 0 0"/> -->
+
+  <statistic center="0 0 0.2" extent="0.6"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <!-- offwidth/offheight size the OFFSCREEN framebuffer, and MuJoCo's
+         default is only 640x480: mujoco.Renderer raises outright above it.
+         Every figure and video this project produces is rendered offscreen, so
+         this is a model-level capability, not a framing preset (framing lives
+         in walk/common/render.py as mjvCamera presets, deliberately kept out
+         of the XML because robot.xml/scene.xml are under a byte-identical
+         regeneration test). 1920x1440 keeps the 4:3 aspect of the default and
+         leaves room for 2x supersampling of a 960x720 frame. -->
+    <global azimuth="120" elevation="-20" offwidth="1920" offheight="1440"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7"
+             rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge"
+             rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8"
+             width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true"
+              texrepeat="5 5" reflectance="0.2"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+    <!-- priority=2 so ground contact is structurally immune to any tuning of
+         the self-collision guards: a higher-priority geom supplies condim,
+         friction, solref and solimp wholesale, instead of solref being
+         combined as a solmix-weighted average. -->
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"
+          condim="3" friction="0.9 0.005 0.0001" priority="2"/>
+
+    <body name="com_target" pos="0.15 0 0.15" mocap="true">
+      <geom type="sphere" size=".02" contype="0" conaffinity="0" rgba=".6 .3 .3 .2"/>
+      <site type="sphere" size="0.003" rgba="0 0 1 1" group="1"/>
+    </body>
+    <body name="left_palm_target" pos="0.15 0 0.15" quat="0 1 0 0" mocap="true">
+      <geom type="box" size=".012 .012 .012" contype="0" conaffinity="0" rgba=".6 .3 .3 .2"/>
+      <site type="sphere" size="0.003" rgba="0 0 1 1" group="1"/>
+    </body>
+    <body name="right_palm_target" pos="0.15 0 0.15" quat="0 1 0 0" mocap="true">
+      <geom type="box" size=".012 .012 .012" contype="0" conaffinity="0" rgba=".6 .3 .3 .2"/>
+      <site type="sphere" size="0.003" rgba="0 0 1 1" group="1"/>
+    </body>
+    <body name="left_foot_target" pos="0.15 0 0.15" quat="0 1 0 0" mocap="true">
+      <geom type="box" size=".012 .012 .012" contype="0" conaffinity="0" rgba=".6 .3 .3 .2"/>
+      <site type="sphere" size="0.003" rgba="0 0 1 1" group="1"/>
+    </body>
+    <body name="right_foot_target" pos="0.15 0 0.15" quat="0 1 0 0" mocap="true">
+      <geom type="box" size=".012 .012 .012" contype="0" conaffinity="0" rgba=".6 .3 .3 .2"/>
+      <site type="sphere" size="0.003" rgba="0 0 1 1" group="1"/>
+    </body>
+  </worldbody>
+  
+  <keyframe>
+    <key name="stand"
+      qpos="
+      0.000 0.000 -0.012 1.000 0.000 0.000 0.000
+      0.000 0.000
+      -0.004 -0.779 1.102 -0.398 -0.017 0.251 -0.289 0.377 0.000
+      -0.021 -0.779 1.064 -0.381 -0.000 0.251 0.281 -0.302 0.000
+      "/>
+  </keyframe>
+</mujoco>
